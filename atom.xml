@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>hojun</title>
+  <title>Sakura</title>
   
-  
+  <subtitle>Sakuracatta</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="/"/>
@@ -10,7 +10,7 @@
   <id>/</id>
   
   <author>
-    <name>hojun</name>
+    <name>Sakuracatta</name>
     
   </author>
   
