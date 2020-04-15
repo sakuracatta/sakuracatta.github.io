@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">Hello World | Sakura</title>
+  <title itemprop="name">js事件详解+正则 | Sakura</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -351,6 +351,30 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
 <div class="pattern-center-blank"></div>
 
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-1024x576.png);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-1024x576.png">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      js事件详解+正则</h1>
+      <p class="entry-census">
+        <span>
+          <a href="sakuracatta.gitgub.io">
+            <img src="https://cdn.jsdelivr.net/gh/sakuracatta/cdn@1.2.1/img/custom/avatar.png">
+          </a>
+        </span>
+        <span>
+          <a href="sakuracatta.gitgub.io">Sakuracatta</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2020-4-15<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
 <div id="content" class="site-content">
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
@@ -358,27 +382,471 @@
         <div class="toc"></div>
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
-          <header class="entry-header">
-            <h1 class="entry-title">Hello World</h1>
-            <p class="entry-census">&nbsp;·&nbsp;2020-4-9&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
-
-            <hr>
-          </header>
-        
         <div class="entry-content">
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
+          <h1 id="事件详解"><a href="#事件详解" class="headerlink" title="事件详解"></a>事件详解</h1><h3 id="1鼠标事件"><a href="#1鼠标事件" class="headerlink" title="1鼠标事件"></a>1鼠标事件</h3><h5 id="1-1-基础"><a href="#1-1-基础" class="headerlink" title="1.1 基础"></a>1.1 基础</h5><p>事件源：事件发生在谁身上</p>
+<p>事件类型：用户的行为</p>
+<p>事件处理程序：事件发生后的响应</p>
+<h5 id="1-2-事件的添加与移除"><a href="#1-2-事件的添加与移除" class="headerlink" title="1.2 事件的添加与移除"></a>1.2 事件的添加与移除</h5><ol>
+<li><h6 id="添加单个事件的方法："><a href="#添加单个事件的方法：" class="headerlink" title="添加单个事件的方法："></a>添加单个事件的方法：</h6></li>
+</ol>
+<pre><code class="js">div.onclick=function(){
+  alert(1)//不会弹出，因为下面的把它覆盖了，为了避免这种情况，则可以用添加多个事件时用
+}
+div.onclick=function(){
+  alert(2)//会弹出，
+}
 </code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
+<ol start="2">
+<li><h6 id="（现代浏览器）添加多个事件的方法："><a href="#（现代浏览器）添加多个事件的方法：" class="headerlink" title="（现代浏览器）添加多个事件的方法："></a>（现代浏览器）添加多个事件的方法：</h6></li>
+</ol>
+<blockquote>
+<p>对象.addEventListener(事件类型，事件处理程序/函数名，布尔值)</p>
+</blockquote>
+<blockquote>
+<pre><code class="js">div.addEventListener(&#39;click&#39;, function(){
+  alert(1)
+}, false)
+//或者：
+div.addEventListener(&#39;click&#39;, move, false)
+function move(){
+  alert(1)
+}
 </code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
+</blockquote>
+<p>​    2.1 移除事件</p>
+<blockquote>
+<p>对象.removeEventListener(事件类型，事件处理程序/函数名，布尔值)</p>
+<pre><code class="js">div.removeEventListener(&#39;click&#39;, move, false)
 </code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
+</blockquote>
+<ol start="3">
+<li><h6 id="IE低版本中的事件添加与移除"><a href="#IE低版本中的事件添加与移除" class="headerlink" title="IE低版本中的事件添加与移除"></a>IE低版本中的事件添加与移除</h6></li>
+</ol>
+<blockquote>
+<p>添加：对象.attachEvent ( on事件类型，事件处理程序/函数名)</p>
+<p>移除：对象.detachEvent ( on事件类型，事件处理程序/函数名)</p>
+<p>注意：只有这两个参数，添加和移除的次序都是倒序执行的</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">现代浏览器与IE添加事件的区别</th>
+<th style="text-align:center">现代浏览器</th>
+<th style="text-align:center">IE低版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">参数个数不同</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">事件类型不同</td>
+<td style="text-align:center">不加on</td>
+<td style="text-align:center">加on</td>
+</tr>
+<tr>
+<td style="text-align:center">执行顺序不同</td>
+<td style="text-align:center">顺序执行</td>
+<td style="text-align:center">倒序执行</td>
+</tr>
+<tr>
+<td style="text-align:center">this所指对象不同</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-键盘事件"><a href="#2-键盘事件" class="headerlink" title="2 键盘事件"></a>2 键盘事件</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">键盘码</th>
+<th style="text-align:center">ASCII值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">方向键的左上右下</td>
+<td style="text-align:center">37 38 39 40</td>
+</tr>
+<tr>
+<td style="text-align:center">空格</td>
+<td style="text-align:center">32</td>
+</tr>
+<tr>
+<td style="text-align:center">shift、ctrl、alt</td>
+<td style="text-align:center">16、17、18</td>
+</tr>
+<tr>
+<td style="text-align:center">回车</td>
+<td style="text-align:center">13</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>实例</p>
+<pre><code class="js">document.onkeydown=function(e){
+    if(e.ctrlKey &amp;&amp; e.keyCode==13){//ctrl和enter键同时按住时
+        console.log(1)
+        btn.onclick()
+    }
+}
 </code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+</blockquote>
+<h3 id="3-鼠标滚动事件"><a href="#3-鼠标滚动事件" class="headerlink" title="3 鼠标滚动事件"></a>3 鼠标滚动事件</h3><table>
+<thead>
+<tr>
+<th>比较</th>
+<th>事件</th>
+<th>获取滚动的方向</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>谷歌/IE浏览器</td>
+<td>onmousewheel</td>
+<td>e.wheelDelta</td>
+<td>上120，下-120</td>
+</tr>
+<tr>
+<td>火狐浏览器</td>
+<td>DOMMouseScroll</td>
+<td>e.detail</td>
+<td>上-3，    下3</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>兼容函数</p>
+<pre><code class="js">function mousewheel(obj,upfun,downfun) {
+        //判断浏览器是否支持attachEvent，支持为IE，不支持为谷歌，火狐
+        if (obj.attachEvent){
+            obj.attachEvent(`onmousewheel`,wheel);
+        }else {
+            obj.addEventListener(`mousewheel`,wheel);
+            obj.addEventListener(`DOMMouseScroll`,wheel);
+        }
+        function wheel(e){
+            //将事件对象做兼容，谷歌火狐为e，IE为window.event
+            var ev=e||window.event;
+            flag = true;
+            //阻止浏览器默认的动作，例如在盒子上滚轮向下，整个页面也会滚动，因为浏览器默认的动作，所以需要阻止
+            if(ev.preventDefault){
+                ev.preventDefault();  //谷歌，火狐，ie高版本
+            }else{
+                ev.returnValue=false;  //ie低版本
+            }
+            //判断鼠标滚轮的方向
+            if (ev.wheelDelta==-120||ev.detail==3){      //滚轮向下
+                if (flag){
+                    flag=false;
+                    downfun();
+                }
+            }else if(e.wheelDelta==120||e.detail==-3) {  //滚轮向上
+                if (flag){
+                    flag=false;
+                    upfun();
+                }
+            }else {
+                return;
+            }
+        }
+    }
+</code></pre>
+</blockquote>
+<h3 id="4-事件流"><a href="#4-事件流" class="headerlink" title="4 事件流"></a>4 事件流</h3><blockquote>
+<p>当一个事件触发的时候，当前元素的父元素，乃至整个页面都会以一定的顺序来响应这个事件，响应的顺序叫做是事件流</p>
+</blockquote>
+<h5 id="4-1-冒泡型事件流"><a href="#4-1-冒泡型事件流" class="headerlink" title="4.1 冒泡型事件流"></a>4.1 冒泡型事件流</h5><blockquote>
+<p>从当前元素一级一级向上触发，触发到html</p>
+<pre><code class="html">&lt;div class=&quot;par&quot;&gt;
+    &lt;div class=&quot;son&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  son.onclick = function() {
+      console.log(&#39;son冒泡&#39;)
+  }
+  par.onclick = function() {
+      console.log(&#39;par冒泡&#39;)
+  }
+  body.onclick = function() {
+      console.log(&#39;body冒泡&#39;)
+  }
+  html.onclick = function() {
+      console.log(&#39;html冒泡&#39;)
+  }
+&lt;/script&gt;    
+&lt;--例如：只点击son时，会从son到html根元素一直触发事件，console的结果是：son冒泡、par冒泡、body冒泡、html冒泡--&gt;
+</code></pre>
+</blockquote>
+<h5 id="4-2-捕获型事件流"><a href="#4-2-捕获型事件流" class="headerlink" title="4.2 捕获型事件流"></a>4.2 捕获型事件流</h5><blockquote>
+<p>从根元素一级一级向下触发，到当前元素</p>
+<p>如何添加捕获型事件流？在addEventListener里，把 默认的false改成true</p>
+<p>兼容性：ie只有冒泡型事件流 ，没有捕获型事件流</p>
+<pre><code class="js">son.addEventListener(&#39;click&#39;, function(){
+    console.log(&#39;son捕获&#39;)
+}, true)
+par.addEventListener(&#39;click&#39;, function(){
+    console.log(&#39;par捕获&#39;)
+}, true)
+body.addEventListener(&#39;click&#39;, function(){
+    console.log(&#39;body捕获&#39;)
+}, true)
+html.addEventListener(&#39;click&#39;, function(){
+    console.log(&#39;html捕获&#39;)
+}, true)
+//例如：只点击par时，事件流会从html一路向下触发到当前目标事件源，console的结果是：html冒泡、body冒泡、par冒泡
+</code></pre>
+</blockquote>
+<h5 id="4-3-阻止冒泡型事件流的传递"><a href="#4-3-阻止冒泡型事件流的传递" class="headerlink" title="4.3 阻止冒泡型事件流的传递"></a>4.3 阻止冒泡型事件流的传递</h5><pre><code class="js">son.onclick = function(e) {
+    // 阻止事件流的传递，不是阻止事件流
+    if(e.stopPropagation){
+        e.stopPropagation()//高级浏览器，IE不兼容
+    }else{
+        e.cancelBubble = true//IE，IE里面都是属性，现代浏览器都是方法
+    }    
+    // 注意：这是从son开始阻止传递，如果给par阻止，son不阻止，则单击son时会触发son和par
+    console.log(&#39;son冒泡&#39;)
+}
+</code></pre>
+<blockquote>
+<p>在运用中，父元素与子元素来回切换时仍然会有事件流的传递</p>
+</blockquote>
+<h5 id="4-4-事件委派"><a href="#4-4-事件委派" class="headerlink" title="4.4 事件委派"></a>4.4 事件委派</h5><blockquote>
+<p>what?把子元素要添加的事件委派给父元素，利用的是冒泡型事件流的特性，点击obj目标事件源会向上触发事件</p>
+<p>when?1.给新添加的元素加事件     2.优化程序，用于大量事件的添加      3. ajax时需要用</p>
+<pre><code class="js">document.body.onclick=function(e){
+    var obj = e.target
+    if(obj.nodeName == &#39;DIV&#39;){
+        obj.style.background=&#39;blue&#39;
+    }
+}
+//例如：把给div盒子的点击事件委派给document.body，利用冒泡事件流传递给div
+</code></pre>
+</blockquote>
+<p>注意：onmouseenter和onmouseleave没有事件流，所以也没有事件委派</p>
+<h3 id="4-时间对象"><a href="#4-时间对象" class="headerlink" title="4 时间对象"></a>4 时间对象</h3><blockquote>
+<p>GMT是格林威治时间，以它为中心，按经纬度分区的时间，北京是东8区，比格林威治时间早8个小时</p>
+<p>UTC是协调世界时间</p>
+<p>从1970年1月1号0点0分0秒开始算起，有效时间是285616年</p>
+</blockquote>
+<pre><code class="js">var time = new Date(2017,0,1,1,1,1,1)
+时间的设置方法，不传参表示系统当前时间，注意月份从0开始计数，这里实际设置的时间是2017年1月1号
+time.getTime()//time到1970.1.1 00:00:00的毫秒数
+getDay()星期
+getDate()几号
+getSecond()几秒
+</code></pre>
+<h3 id="5-cookie"><a href="#5-cookie" class="headerlink" title="5 cookie"></a>5 cookie</h3><blockquote>
+<pre><code class="js">1. h5之前是cookie，h5之后是本地存储
+2. cookie是键值对的结构
+3. 电脑只允许写入4k的cookie，超过4k时有的浏览器随机删除，有的浏览器删除以前的
+4. cookie不能跨浏览器访问,例如，在谷歌浏览器里设置的cookie，在火狐等其他浏览器里是没有的
+</code></pre>
+</blockquote>
+<h5 id="5-1-设置cookie"><a href="#5-1-设置cookie" class="headerlink" title="5.1 设置cookie"></a>5.1 设置cookie</h5><pre><code class="js">document.cookie = &#39;name=z3&#39;
+document.cookie = &#39;age=18&#39;
+// 访问所有的cookie：console.log(document.cookie)，获取回的是字符串
+//以上是临时性的，生命周期是浏览器的打开到关闭的时间
+//以下设置一定时间的cookie
+document.cookie = &#39;name=zhangsan; expires=&#39;+now.toGMTString();//now.toGMTString()表示需要设置的到期的时间
+</code></pre>
+<blockquote>
+<p>注意：多个cookie之间都是由‘; ’分号空格隔开，单个cookie的键和值是由‘=’分隔开，</p>
+<p>这样获取cookie时可以先用字符串的split()方法进行分割成数组var arr = str.split(‘; ’)；var brr = str.split(‘=’)</p>
+<p>key不能重复，value可以重复</p>
+</blockquote>
+<h3 id="6-本地存储"><a href="#6-本地存储" class="headerlink" title="6 本地存储"></a>6 本地存储</h3><pre><code>1. 大小：5-10M，不能跨浏览器
+2. sessionStorage会话关闭即删除,当前窗口关闭就会被删除
+3. localStorage永久存储，只要不清楚缓存，不卸载浏览器
+4. 银行卡密码等敏感信息不要本地存储，不安全，一般存储在服务器端
+</code></pre><table>
+<thead>
+<tr>
+<th>比较</th>
+<th>相同点</th>
+<th>不同点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sessionStorage</td>
+<td>使用方法差不多</td>
+<td>窗口关闭即会话关闭即删除</td>
+</tr>
+<tr>
+<td>localStorage</td>
+<td></td>
+<td>永久保存</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>常用方法：</p>
+<pre><code class="js">sessionStorage.setItem(&#39;name&#39;,&#39;zhang3&#39;)//设置本地存储
+localStorage.setItem(&#39;name&#39;,&#39;forever&#39;)
+console.log(localStorage.item)
+console.log(sessionStorage.getItem(&#39;name&#39;))//获取name对应的值
+console.dir(sessionStorage)
+console.dir(localStorage)
+</code></pre>
+<pre><code class="js">var str = JSON.stringify(datebase)    将JSON对象转化为字符串
+// localStorage.datebase=str    将字符串本地存储进去
+// console.log(localStorage.datebase)
+// 已经本地存储了，存储一次即可注释掉
+var arr = JSON.parse(localStorage.datebase)        //将已经本地存储的数据拿出来解析为数组
+</code></pre>
+<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1 概念"></a>1 概念</h3><p>1.1 正则表达式是普通字符与特殊字符组成的模式字符串</p>
+<p>1.2 正则在php中经常用，要好好学</p>
+<h3 id="2-正则的方法"><a href="#2-正则的方法" class="headerlink" title="2 正则的方法"></a>2 正则的方法</h3><p>2.1 test()</p>
+<blockquote>
+<p>正则是否匹配到，返回一个布尔值</p>
+</blockquote>
+<p>2.2 exec()</p>
+<blockquote>
+<p>exec() 方法用于检索字符串中的正则表达式的匹配。<br>返回值是一个数组，但是此数组的内容和正则对象是否是全局匹配有着很大关系</p>
+</blockquote>
+<blockquote>
+<pre><code class="js">//非全局匹配
+var str = &#39;hehuan&#39;
+var reg = /h/
+console.log(reg.exec(str))//[&quot;h&quot;, index: 0, input: &quot;hehuan&quot;]
+//全局匹配见下面精讲
+</code></pre>
+</blockquote>
+<h3 id="3-精讲"><a href="#3-精讲" class="headerlink" title="3 精讲"></a>3 精讲</h3><p><strong>3.1 全局匹配</strong></p>
+<blockquote>
+<p>模式修正符g是全局匹配，自动刷新，匹配过的的不匹配</p>
+<pre><code class="js">var str = ‘asdfasdf’
+var reg = /a/g
+console.log(reg.test(str),reg.lastIndex) //true 1 从0开始匹配，匹配到了第一个
+console.log(reg.test(str),reg.lastIndex) //true 5 从上次匹配到的位置继续往后，找到第5个
+console.log(reg.test(str),reg.lastIndex) //false 0 从上次匹配到的位置继续往后，第5个后面没有a，则没找到
+console.log(reg.test(str),reg.lastIndex) //true 1 没找到又会从0位置开始找
+</code></pre>
+<p>原理：加模式修正符g会改变正则对象的lastIndex属性的值，即找到的位置</p>
+</blockquote>
+<p><strong>3.2 全局匹配与非全局匹配的区别</strong></p>
+<blockquote>
+<p>非全局匹配：</p>
+<pre><code>作用和match()函数是一样的，只能够在字符串中匹配一次，如果没有找到匹配的字符串，那么返回null，否则将返回一个数组
+</code></pre></blockquote>
+<blockquote>
+<p>全局匹配</p>
+<pre><code>此函数返回值同样是一个数组，并且也只能够在字符串中匹配一次。不过此时，此函数一般会和lastIndex属性匹配使用，此函数会在lastIndex属性指定的字符处开始检索字符串，当exec()找到与表达式相匹配的字符串时，在匹配后，它将lastIndex 属性设置为匹配字符串的最后一个字符的下一个位置。可以通过反复调用exec()函数遍历字符串中的所有匹配，当exec()函数再也找不到匹配的文本时，它将返回null，并把lastIndex 属性重置为0。
+</code></pre></blockquote>
+<p><strong>3.3 原子</strong></p>
+<table>
+<thead>
+<tr>
+<th>原子</th>
+<th>描述（一个原子只能匹配一个字符）</th>
+<th>原子</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\d</td>
+<td>用来匹配0-9的数字</td>
+<td>\D</td>
+<td>用来匹配除了0-9数字之外的所有字符</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>用来匹配数字字母下划线：0-9 a-z A-Z _</td>
+<td>\W</td>
+<td>用来匹配除了数字字母下划线的所有字符</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>用来匹配空白字符：空格、\n、\t、\f、\r、\v</td>
+<td>\S</td>
+<td>用来匹配除了空白字符的所有字符</td>
+</tr>
+<tr>
+<td>.</td>
+<td>除了换行之外，所有的都能匹配</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配边界，一行的开始位置</td>
+<td>$</td>
+<td>匹配边界，一行的结束位置</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3.4 原子表</strong></p>
+<p>3.4.1 原子表的引源</p>
+<pre><code class="js">1. 或&#39;|&#39;的含义
+var reg = /ab|cb/     //表示匹配ab或cb,不是a，b或c，b
+2. 如果要表示a，b或c，b，则加括号，如下：
+var reg = /a(b|c)b/
+3. 当有扩号的时候会生成原子分组,在匹配的时候，会将扩号里面匹配到的内容会压入内存，等待使用
+4. 使用的过程就叫反向引用，例如：
+var reg = /a(b|c)b(\d)\1\2/     //有俩个括号则有俩个原子分组
+var str = &#39;acb9c9&#39;    //匹配到了，因为acb扩号，第一个扩号保存下了c，第二个扩号保存下了9，所以后面\1引用到了c，\2引用到了9,正好匹配到
+5. 取消反向引用，如下： 
+var reg = /a(?:b|c)b(\d)\1///会把第一个扩号的引用取消掉，\1匹配到的是第二个扩号，因为第一个已经取消反向引用
+</code></pre>
+<p>3.4.2 自定义的原子</p>
+<blockquote>
+<pre><code class="js">/[1-5]/匹配1-5的数字  /[a-c]/匹配a-c之内的数字
+/[1-59]/匹配1-5和9这几个数组：1/2/3/4/5/9
+取反：/[^1-5]/除了1-5外的所有字符
+var reg = /\d{3,5}/ //匹配3-5次\d
+var reg = /\d{3,}/ //匹配最少3次\d
+var reg = /\d{0,5}/ //匹配0-5次\d 
+</code></pre>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>原子</th>
+<th>描述</th>
+<th>原子</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>匹配1次到多次</td>
+<td>？</td>
+<td>匹配0次或1次</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配0次或多次</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>3.4.3 吝啬与贪婪</p>
+<pre><code class="js">例如 str=&#39;123456b&#39;
+// 贪婪匹配，尽可能多的匹配 默认 var reg = /123\d{2,4}/; reg.exec(str)结果是123456
+// 吝啬匹配，尽可能少的匹配 ？    var reg = /123\d{2,4}?/; reg.exec(str)结果是12345
+// 在匹配成功的前提下再吝啬匹配
+</code></pre>
+<p>3.4.4 和正则使用的字符串方法</p>
+<blockquote>
+<p>match()、replace()、search()、split()</p>
+<pre><code class="js">var str = &#39;a1h4h6&#39;
+var reg1 = /\d/
+var reg2 = /\d/g
+// console.log(str.split(reg1))//[&#39;a&#39;,&#39;h&#39;,&#39;h&#39;,&#39;&#39;]
+// console.log(str.replace(reg2,&#39;*&#39;))//替换，a*h*h*
+// console.log(str.search(reg1))//0,第一个位置，返回满足条件的字符串下标
+// console.log(str.match(reg1))//和正则的exec即：reg.exec(str)结果一样
+//console.log(str.match(reg2))//返回一个数组，数组里是所有匹配到的元素,注意！！！
+</code></pre>
+</blockquote>
 
         </div>
         <!-- .entry-content -->
@@ -407,36 +875,19 @@
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
+        
           
-            <div class="post-nepre half previous">
+            <div class="post-nepre full next">
           
-            <a href="/2020/04/15/text/" rel="prev">
+            <a href="/2020/04/15/text/" rel="next">
               <div class="background">
                 <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1586928380720&di=794c33cea7f3bf98f2a8dd69b8de3015&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20190406%2F4fa9f9a20e734c45af164e04e081145f.jpeg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1586928380720&di=794c33cea7f3bf98f2a8dd69b8de3015&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20190406%2F4fa9f9a20e734c45af164e04e081145f.jpeg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                Airpods连接Win10音量异常的解决方法</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-        
-          
-            <div class="post-nepre half next">
-          
-            <a href="/2018/12/12/Hexo-Theme-Sakura/" rel="next">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-1024x576.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://static.2heng.xin/wp-content/uploads//2019/02/wallhaven-672007-1-1024x576.png">
               </div>
               <span class="label">
               Next Post</span>
               <div class="info">
                 <h3>
-                Hexo-Theme-Sakura</h3>
+                Airpods连接Win10音量异常的解决方法</h3>
                 <hr>
               </div>
             </a>
@@ -460,16 +911,16 @@
 
       <section class="author-profile">
         <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
-          <a href="" class="profile gravatar"><img src="" itemprop="image" alt="" height="70" width="70"></a>
+          <a href="sakuracatta.gitgub.io" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/sakuracatta/cdn@1.2.1/img/custom/avatar.png" itemprop="image" alt="Sakuracatta" height="70" width="70"></a>
           <div class="meta">
             <span class="title">Author</span>
             <h3 itemprop="name">
-            <a href="" itemprop="url" rel="author"></a>
+            <a href="sakuracatta.gitgub.io" itemprop="url" rel="author">Sakuracatta</a>
             </h3>
           </div>
         </div>
         <hr>
-        <p><i class="iconfont icon-write"></i></p>
+        <p><i class="iconfont icon-write"></i>直肠子</p>
       </section>
     </main><!-- #main -->
   </div><!-- #primary -->
